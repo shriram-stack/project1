@@ -5,9 +5,11 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - $(aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 134832229768.dkr.ecr.ap-southeast-2.amazonaws.com)
-      - REPOSITORY_URI=134832229768.dkr.ecr.ap-southeast-2.amazonaws.com/brain-tasks-app
-      - IMAGE_TAG=latest
+      - export REPOSITORY_URI=134832229768.dkr.ecr.ap-southeast-2.amazonaws.com/brain-tasks-app
+      - export IMAGE_TAG=latest
+      - echo $REPOSITORY_URI
+      - echo Logging in to ECR...
+      - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin $REPOSITORY_URI
   build:
     commands:
       - echo Building the Docker image...
