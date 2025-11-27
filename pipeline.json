@@ -1,0 +1,53 @@
+{
+  "pipeline": {
+    "name": "brain-tasks-pipeline",
+    "roleArn": "arn:aws:iam::134832229768:role/AWSCodePipelineServiceRole-brain-tasks-pipeline",
+    "artifactStore": {
+      "type": "S3",
+      "location": "brain-tasks-artifacts-shriram-2025"
+    },
+    "stages": [
+      {
+        "name": "Source",
+        "actions": [
+          {
+            "name": "SourceAction",
+            "actionTypeId": {
+              "category": "Source",
+              "owner": "ThirdParty",
+              "provider": "GitHub",
+              "version": "1"
+            },
+            "outputArtifacts": [{ "name": "SourceOutput" }],
+            "configuration": {
+              "Owner": "shriram-stack",
+              "Repo": "project1",
+              "Branch": "main",
+              "OAuthToken": "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"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Build",
+        "actions": [
+          {
+            "name": "BuildAction",
+            "actionTypeId": {
+              "category": "Build",
+              "owner": "AWS",
+              "provider": "CodeBuild",
+              "version": "1"
+            },
+            "inputArtifacts": [{ "name": "SourceOutput" }],
+            "outputArtifacts": [],
+            "configuration": {
+              "ProjectName": "brain-tasks-build"
+            }
+          }
+        ]
+      }
+    ],
+    "version": 1
+  }
+}
