@@ -1,12 +1,15 @@
 version: 0.2
 
+env:
+  variables:
+    REPOSITORY_URI: 134832229768.dkr.ecr.ap-southeast-2.amazonaws.com/brain-tasks-app
+    IMAGE_TAG: latest
+
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - export REPOSITORY_URI=134832229768.dkr.ecr.ap-southeast-2.amazonaws.com/brain-tasks-app
-      - export IMAGE_TAG=latest
       - echo Repository: $REPOSITORY_URI
       - echo Logging in to ECR...
       - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin $REPOSITORY_URI
@@ -25,4 +28,4 @@ phases:
       - echo Deploying to EKS...
       - kubectl set image deployment/brain-tasks-deployment brain-tasks-container=$REPOSITORY_URI:$IMAGE_TAG
       - echo Deployment updated successfully!
-      - echo Build completed on `date`
+      - echo Build completed on $(date)
